@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Booking</title>
+    <link rel="stylesheet" href="../assets/css/booking-confirmation.css"> <!-- Your CSS file -->
+</head>
+<body>
+    <div id="booking-details">
+        <h2>Booking Confirmation</h2>
+        <p><strong>Tracking ID:</strong> <span id="tracking-id"></span></p>
+        <p><strong>From:</strong> <span id="from-city"></span>, <span id="from-state"></span></p>
+        <p><strong>To:</strong> <span id="to-city"></span>, <span id="to-state"></span></p>
+        <p><strong>Estimated Delivery Date:</strong> <span id="estimated-delivery"></span></p>
+        <p><strong>Total Price:</strong> ₹<span id="total-price"></span></p>
+        <p><strong>Status:</strong> <span id="status"></span></p>
+    </div>
+
+    <script type="module" src="../assets/js/booking-confirmation.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+</body>
+</html>
