@@ -15,6 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore();
+let loader = document.querySelector('.loader-container');
 const responseMessage = document.getElementById("responseMessage");
 
 onAuthStateChanged(auth, async (user) => {
@@ -23,9 +24,10 @@ onAuthStateChanged(auth, async (user) => {
         const userRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userRef);
         const userData = userDoc.data();
-
+        
         document.getElementById("name").value =  user.displayName || userData.name || 'User';
         document.getElementById("email").value = user.email;
+        loader.style.display = 'none'
     }
 });
 
@@ -40,7 +42,7 @@ const submitButton = document.getElementById("submit-button");
 function validateForm() {
     let isValid = true;
     let errorMessage = "";
-
+    
     // Validate Subject
     const subject = subjectInput.value.trim();
     if (!subject || subject.length < 5 || subject.length > 100) {
@@ -65,7 +67,7 @@ function validateForm() {
     if (!isValid) {
         alert(errorMessage); // Or display the error message in a div
     }
-
+    
     return isValid;
 }
 
@@ -80,7 +82,7 @@ contactForm.addEventListener("submit", (event) => {
                 const userRef = doc(db, "users", user.uid);
                 const userDoc = await getDoc(userRef);
                 const userData = userDoc.data();
-        
+                
                 document.getElementById("name").value =  user.displayName || userData.name || 'User';
                 document.getElementById("email").value = user.email;
                 sendEmail(document.getElementById("name").value,user.email); // Replace with your actual email sending function
@@ -99,8 +101,8 @@ function sendEmail(userName,userEmail) {
     };
 
     emailjs.send('service_6tzyinn', 'template_z77q868', emailParams, 'fhKVrW2Ae-NFbTiOb')
-        .then((response) => {
-            console.log('Email sent successfully:', response);
+    .then((response) => {
+        console.log('Email sent successfully:', response);
             // Show success message or clear the form
             document.getElementById('responseMessage').textContent = 'Thanks for contacting us. Our team will connect with you zoon.'
             contactForm.reset()
@@ -109,4 +111,5 @@ function sendEmail(userName,userEmail) {
             console.error('Error sending email:', error);
             // Show error message
         });
-}
+    }
+    

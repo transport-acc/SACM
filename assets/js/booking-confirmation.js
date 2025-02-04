@@ -25,7 +25,8 @@ const urlParams = new URLSearchParams(window.location.search);
 const trackingId = urlParams.get('trackingid');
 
 let userUID = null;
-
+let loader = document.querySelector('.loader-container');
+loader.style.display = 'none'
 // Firebase Authentication (to get the current user UID)
 onAuthStateChanged(auth, user => {
     if (user) {
@@ -39,6 +40,7 @@ onAuthStateChanged(auth, user => {
 
 // Function to fetch booking details from Firestore
 async function fetchBookingDetails() {
+    loader.style.display = 'grid'
     if (!trackingId) {
         alert("Tracking ID is missing!");
         return;
@@ -52,6 +54,7 @@ async function fetchBookingDetails() {
             const shipmentData = docSnap.data();
             displayBookingDetails(shipmentData);
             sendConfirmationEmail(shipmentData); // Send email after fetching details
+            loader.style.display = 'none';
         } else {
             alert("No booking found for the provided tracking ID.");
         }
@@ -71,6 +74,8 @@ function displayBookingDetails(shipmentData) {
     document.getElementById("estimated-delivery").textContent = new Date(shipmentData.estimatedDeliveryDate).toLocaleDateString();
     document.getElementById("total-price").textContent = shipmentData.price;
     document.getElementById("status").textContent = shipmentData.status;
+    document.getElementById("product-type").textContent = shipmentData.productType || '';
+    document.getElementById("product-name").textContent = shipmentData.productName || '';
 }
 
 // Function to send a confirmation email using EmailJS

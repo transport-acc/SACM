@@ -19,7 +19,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 const bookingsList = document.getElementById("bookingsList");
-
+let loader = document.querySelector('.loader-container');
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         const userUID = user.uid;
@@ -28,32 +28,35 @@ onAuthStateChanged(auth, async (user) => {
         try {
             const querySnapshot = await getDocs(userBookingsRef);
             bookingsList.innerHTML = "";
-
+            
             if (querySnapshot.empty) {
                 bookingsList.innerHTML = "<p>No bookings found.</p>";
                 return;
             }
-
+            
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
                 const bookingItem = document.createElement("div");
                 bookingItem.classList.add("booking-item");
-
+                
                 bookingItem.innerHTML = `
-                    <h3>Tracking ID: ${data.trackingId}</h3>
-                    <p><strong>From:</strong> ${data.from.city}, ${data.from.state}</p>
-                    <p><strong>To:</strong> ${data.to.city}, ${data.to.state}</p>
-                    <p><strong>Price:</strong> ₹${data.price}</p>
-                    <p class="status ${data.status.toLowerCase()}"><strong>Status:</strong> ${data.status}</p>
+                <h3>Tracking ID: ${data.trackingId}</h3>
+                <p><strong>From:</strong> ${data.from.city}, ${data.from.state}</p>
+                <p><strong>To:</strong> ${data.to.city}, ${data.to.state}</p>
+                <p><strong>Price:</strong> ₹${data.price}</p>
+                <p class="status ${data.status.toLowerCase()}"><strong>Status:</strong> ${data.status}</p>
                 `;
-
+                
                 bookingsList.appendChild(bookingItem);
+                loader.style.display = 'none'
             });
         } catch (error) {
             console.error("Error fetching bookings:", error);
             bookingsList.innerHTML = "<p>Error loading bookings. Please try again.</p>";
+            loader.style.display = 'none'
         }
     } else {
         bookingsList.innerHTML = "<p>Please log in to view your bookings.</p>";
+        loader.style.display = 'none'
     }
 });

@@ -1,7 +1,13 @@
 // Hamburger Menu Logic
 const menuIcon = document.getElementById('menu-icon');
 const menuList = document.getElementById('menu-list');
-
+const paymentBtn = document.querySelectorAll('.payment--options button');
+paymentBtn.forEach((btn)=>{
+    btn.addEventListener('click',(e)=>{
+        e.preventDefault();
+        document.querySelector('.payment-error').style.display = 'inline'
+    })
+})
 menuIcon.addEventListener('click', () => {
     if (menuList.style.left === '0px') {
         menuList.style.left = '-100vw'; // Hide menu
@@ -22,3 +28,4 @@ const closeSidebar = document.getElementById('close-sidebar');
 profileBtn.addEventListener('click', () => {
     sidebar.classList.toggle('active'); // Show sidebar
 });
+

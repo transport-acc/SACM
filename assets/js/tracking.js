@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc,getDocs,collection,collectionGroup,query,where } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
 // Firebase Configuration
@@ -31,18 +31,66 @@ const priceElem = document.getElementById("price");
 const bookingDateElem = document.getElementById("booking-date");
 const deliveryDateElem = document.getElementById("delivery-date");
 const statusElem = document.getElementById("status");
+let loader = document.querySelector('.loader-container');
 
 // Fetch shipment details from Firestore
+// onAuthStateChanged(auth, async (user) => {
+//     if (user) {
+//         const userUID = user.uid;
+//         if (trackingId) {
+//             try {
+//                 const shipmentRef = doc(db, "shipments", userUID, "bookings", trackingId);
+//                 const shipmentSnap = await getDoc(shipmentRef);
+
+//                 if (shipmentSnap.exists()) {
+//                     const data = shipmentSnap.data();
+//                     trackingIdElem.textContent = trackingId;
+//                     fromLocationElem.textContent = `${data.from.city}, ${data.from.state}`;
+//                     toLocationElem.textContent = `${data.to.city}, ${data.to.state}`;
+//                     distanceElem.textContent = `${data.distance} km`;
+//                     priceElem.textContent = `₹${data.price}`;
+//                     bookingDateElem.textContent = new Date(data.bookingDate).toLocaleDateString();
+//                     deliveryDateElem.textContent = new Date(data.estimatedDeliveryDate).toLocaleDateString();
+//                     statusElem.textContent = data.status;
+//                 } else {
+//                     trackingIdElem.textContent = "Not Found";
+//                     fromLocationElem.textContent = "-";
+//                     toLocationElem.textContent = "-";
+//                     distanceElem.textContent = "-";
+//                     priceElem.textContent = "-";
+//                     bookingDateElem.textContent = "-";
+//                     deliveryDateElem.textContent = "-";
+//                     statusElem.textContent = "-";
+//                     alert("Tracking ID not found.");
+//                 }
+//                 loader.style.display = 'none'
+//             } catch (error) {
+//                 console.error("Error fetching tracking details:", error);
+//                 alert("Error fetching tracking details.");
+//             }
+//         } else {
+//             alert("No tracking ID provided.");
+//         }
+//     } else {
+//         alert("Please log in to track your shipment.");
+//     }
+// });
+
+
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         const userUID = user.uid;
         if (trackingId) {
             try {
-                const shipmentRef = doc(db, "shipments", userUID, "bookings", trackingId);
-                const shipmentSnap = await getDoc(shipmentRef);
+                // Use collectionGroup to search across all 'bookings' sub-collections
+                const bookingsRef = collectionGroup(db, "bookings");
+                const q = query(bookingsRef, where("trackingId", "==", trackingId));
+                const querySnapshot = await getDocs(q);
 
-                if (shipmentSnap.exists()) {
-                    const data = shipmentSnap.data();
+                if (!querySnapshot.empty) {
+                    // Get the first matching document
+                    const doc = querySnapshot.docs[0]; // Retrieve the first document that matches
+                    const data = doc.data();
                     trackingIdElem.textContent = trackingId;
                     fromLocationElem.textContent = `${data.from.city}, ${data.from.state}`;
                     toLocationElem.textContent = `${data.to.city}, ${data.to.state}`;
@@ -52,6 +100,7 @@ onAuthStateChanged(auth, async (user) => {
                     deliveryDateElem.textContent = new Date(data.estimatedDeliveryDate).toLocaleDateString();
                     statusElem.textContent = data.status;
                 } else {
+                    // If no results were found
                     trackingIdElem.textContent = "Not Found";
                     fromLocationElem.textContent = "-";
                     toLocationElem.textContent = "-";
@@ -62,6 +111,8 @@ onAuthStateChanged(auth, async (user) => {
                     statusElem.textContent = "-";
                     alert("Tracking ID not found.");
                 }
+
+                loader.style.display = 'none';
             } catch (error) {
                 console.error("Error fetching tracking details:", error);
                 alert("Error fetching tracking details.");
