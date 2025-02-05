@@ -17,7 +17,8 @@ const auth = getAuth(app);
 const db = getFirestore();
 let loader = document.querySelector('.loader-container');
 const responseMessage = document.getElementById("responseMessage");
-
+const body = document.querySelector('body');
+body.style.overflowY = 'hidden';
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         // Auto-fill Name and Email
@@ -28,6 +29,11 @@ onAuthStateChanged(auth, async (user) => {
         document.getElementById("name").value =  user.displayName || userData.name || 'User';
         document.getElementById("email").value = user.email;
         loader.style.display = 'none'
+        body.style.overflowY = 'auto';
+    }
+    else{
+        loader.style.display = 'none'
+        body.style.overflowY = 'auto';
     }
 });
 
@@ -37,47 +43,50 @@ const contactForm = document.getElementById("contactForm");
 const subjectInput = document.getElementById("subject");
 const queryInput = document.getElementById("query");
 const submitButton = document.getElementById("submit-button");
-
+const errorMessage = document.getElementById('errorMessage');
 // Validation function for the form fields
-function validateForm() {
-    let isValid = true;
-    let errorMessage = "";
+// function validateForm() {
+//     let isValid = true;
+//     let errorMessage = "";
     
-    // Validate Subject
-    const subject = subjectInput.value.trim();
-    if (!subject || subject.length < 5 || subject.length > 100) {
-        isValid = false;
-        errorMessage = "Subject must be between 5 and 100 characters.";
-        subjectInput.style.borderColor = "#FF6F61"; // Highlight border in red
-    } else {
-        subjectInput.style.borderColor = "#ccc"; // Reset border color
-    }
+//     // Validate Subject
+//     const subject = subjectInput.value.trim();
+//     if (!subject || subject.length < 5 || subject.length > 100) {
+//         isValid = false;
+//         errorMessage = "Subject must be between 5 and 100 characters.";
+//         subjectInput.style.borderColor = "#FF6F61"; // Highlight border in red
+//     } else {
+//         subjectInput.style.borderColor = "#ccc"; // Reset border color
+//     }
 
-    // Validate Query
-    const query = queryInput.value.trim();
-    if (!query || query.length < 10 || query.length > 500) {
-        isValid = false;
-        errorMessage = "Query must be between 10 and 500 characters.";
-        queryInput.style.borderColor = "#FF6F61"; // Highlight border in red
-    } else {
-        queryInput.style.borderColor = "#ccc"; // Reset border color
-    }
+//     // Validate Query
+//     const query = queryInput.value.trim();
+//     if (!query || query.length < 10 || query.length > 500) {
+//         isValid = false;
+//         errorMessage = "Query must be between 10 and 500 characters.";
+//         queryInput.style.borderColor = "#FF6F61"; // Highlight border in red
+//     } else {
+//         queryInput.style.borderColor = "#ccc"; // Reset border color
+//     }
 
-    // Show error message if validation fails
-    if (!isValid) {
-        alert(errorMessage); // Or display the error message in a div
-    }
+//     // Show error message if validation fails
+//     if (!isValid) {
+//         alert(errorMessage); // Or display the error message in a div
+//     }
     
-    return isValid;
-}
+//     return isValid;
+// }
+
+
 
 // Attach the validation to the form submission event
 contactForm.addEventListener("submit", (event) => {
     event.preventDefault(); // Prevent form from submitting if validation fails
-    if (validateForm()) {
+
         // Proceed with form submission (e.g., sending the email)
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                errorMessage.textContent = ''
                 // Auto-fill Name and Email
                 const userRef = doc(db, "users", user.uid);
                 const userDoc = await getDoc(userRef);
@@ -87,8 +96,11 @@ contactForm.addEventListener("submit", (event) => {
                 document.getElementById("email").value = user.email;
                 sendEmail(document.getElementById("name").value,user.email); // Replace with your actual email sending function
             }
+            else{
+                errorMessage.textContent = 'Please login to rise a query';
+            }
         });
-    }
+    
 });
 
 // Email sending function (this is where you'd use EmailJS)

@@ -36,6 +36,7 @@ const closeModal = document.querySelector(".close-modal");
 const productType = document.getElementById('product-type');
 const phone = document.getElementById('phone');
 const spinner = document.getElementById('spinner')
+const cityNamesError = document.querySelector('.city-names-error');
 let userUID = null;
 let estimatedKmElement = document.getElementById("estimated-km");
 let totalPrice = 0;
@@ -147,6 +148,7 @@ function calculateHaversineDistance(coords1, coords2) {
 
 // **Handle Calculate Button**
 calculateBtn.addEventListener("click", async () => {
+    cityNamesError.style.display = 'none';
     spinner.style.display = 'inline';
     let loggedIn = localStorage.getItem('loggedIn');
     if (!loggedIn) {
@@ -169,7 +171,7 @@ calculateBtn.addEventListener("click", async () => {
         priceElement.style.display = "block";
         bookNowBtn.style.display = "block"; // Display the "Book Now" button
     } else {
-        alert("Unable to calculate the distance. Please check the city names.");
+        cityNamesError.style.display = 'block';
     }
     spinner.style.display = 'none';
 });

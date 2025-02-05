@@ -55,7 +55,7 @@
 
 /* Header Styles */
 
-header{
+header {
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -71,6 +71,11 @@ header{
     position: relative;
 }
 
+header .logo {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 header .logo img {
     width: 250px;
 }
@@ -104,9 +109,28 @@ header nav ul a:hover {
     cursor: pointer;
     font-size: 28px;
     color: white;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 90px;
+}
+
+.logo-name {
+    display: flex;
+    flex-direction: column;
+    font-size: 28px;
+    line-height: 0.9;
+    color: #FF6F61;
+    font-weight: 500;
 }
 
 /* Mobile-specific Navigation Menu */
+@media (max-width: 940px) {
+    .logo-name {
+        display: none;
+    }
+}
+
 @media (max-width: 768px) {
     header nav ul {
         display: none;
@@ -118,7 +142,7 @@ header nav ul a:hover {
 
     #menu-list {
         position: fixed;
-        top: 60px;
+        top: 83px;
         left: -100vw;
         width: 50vw;
         height: 100%;
@@ -142,6 +166,10 @@ header nav ul a:hover {
 
     #menu-list a:hover {
         background-color: #FF6F61;
+    }
+
+    .logo-name {
+        display: none;
     }
 }
 
@@ -304,7 +332,7 @@ button:hover {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-margin-top: 0;
+    margin-top: 0;
     transition: background-color 0.3s ease;
 }
 
@@ -315,7 +343,8 @@ margin-top: 0;
 .hidden {
     display: none;
 }
-#profile-btn{
+
+#profile-btn {
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -328,14 +357,15 @@ margin-top: 0;
     overflow: hidden;
 }
 
-#profile-img{
+#profile-img {
     width: 50px;
     width: 50px;
 }
+
 /* Sidebar Styles */
 .sidebar {
     position: fixed;
-    top: 86px;
+    top: 83px;
     right: -100%;
     width: 250px;
     height: 100%;
@@ -414,13 +444,15 @@ margin-top: 0;
     right: 0;
 }
 
-#about-us{
+#about-us {
     text-align: center;
 }
-#about-us h1{
+
+#about-us h1 {
     font-size: 2rem;
     margin-bottom: 10px;
 }
+
 .about-container {
     display: grid;
     gap: 30px;
@@ -631,7 +663,10 @@ footer {
     padding: 40px 20px;
     text-align: center;
 }
-
+.footer-section a{
+    color: #ddd;
+    text-decoration: none;
+}
 .footer-container {
     display: flex;
     flex-wrap: wrap;
@@ -738,10 +773,11 @@ footer {
     text-align: center;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition:all 0.5s;
+    transition: all 0.5s;
     cursor: pointer;
     border-top: 4px solid #FF6F61;
-    &:hover{
+
+    &:hover {
         transform: scale(1.05) translateY(-5px);
     }
 }
@@ -769,25 +805,25 @@ footer {
     width: 100%;
     display: none;
     scrollbar-width: thin;
-  }
+}
 
-  .suggestion-item {
+.suggestion-item {
     padding: 8px;
     cursor: pointer;
-  }
+}
 
-  .suggestion-item:hover {
+.suggestion-item:hover {
     background: #f0f0f0;
-  }
+}
 
 
 
-  /* Payment modal */
-.payment-modal{
+/* Payment modal */
+.payment-modal {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     display: none;
     transition: all 1s;
 
@@ -802,8 +838,11 @@ footer {
     max-width: 450px;
     position: relative;
 }
-
-.close-modal{
+.city-names-error{
+    color: crimson;
+    display: none;
+}
+.close-modal {
     position: absolute;
     background-color: crimson;
     border-radius: 50px;
@@ -844,10 +883,12 @@ footer {
 .payment--options button svg {
     height: 18px;
 }
-.payment-error{
+
+.payment-error {
     display: none;
     color: crimson;
 }
+
 .payment--options button:last-child svg {
     height: 22px;
 }
