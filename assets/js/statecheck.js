@@ -24,6 +24,7 @@ const profileBtn = document.getElementById('profile-btn');
 const logoutBtn = document.getElementById('logout-btn');
 const sidebarUsername = document.getElementById('sidebar-username');
 const image = document.getElementById('profile-img');
+const menuBtn = document.querySelector('.hamburger-menu');
 // Monitor Auth State
 onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -56,6 +57,7 @@ onAuthStateChanged(auth, async (user) => {
         }
         sidebarUsername.textContent = `Welcome, ${displayName}`;
     } else {
+        menuBtn.style.right = '110px'
         loginBtn.style.display = 'block'; // Show login button
         profileBtn.style.display = 'none'; // Hide profile button
         sidebarUsername.textContent = ''; // Clear username

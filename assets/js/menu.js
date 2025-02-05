@@ -3,6 +3,7 @@ const menuIcon = document.getElementById('menu-icon');
 const menuList = document.getElementById('menu-list');
 const paymentBtn = document.querySelectorAll('.payment--options button');
 const menuLiks = menuList.querySelectorAll('li');
+
 paymentBtn.forEach((btn)=>{
     btn.addEventListener('click',(e)=>{
         e.preventDefault();
