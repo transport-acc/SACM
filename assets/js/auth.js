@@ -50,15 +50,3 @@ function updateUI(user) {
 onAuthStateChanged(auth, (user) => {
     updateUI(user); // Update UI based on the user's state
 });
-
-// Logout functionality (optional)
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
-        try {
-            await signOut(auth);
-            alert('Logged out successfully!');
-        } catch (error) {
-            console.error('Error during logout:', error.message);
-        }
-    });
-}

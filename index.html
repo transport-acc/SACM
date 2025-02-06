@@ -7,6 +7,7 @@
     <title>Shipment Transport Service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/main.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="shortcut icon" href="./assets/images/logo.png" type="image/x-icon">
 </head>
 
@@ -52,8 +53,8 @@
             </ul>
         </aside>
         <!-- Hero Section with Carousel -->
-        <div class="container">
-            <section class="hero" id="tracking-cont">
+        <div class="container" data-aos="fade-up">
+            <section class="hero" id="tracking-cont" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                 <div class="hero-overlay">
                     <div class="carousel">
                         <div class="carousel-images">
@@ -86,7 +87,7 @@
                 <h2>Book Your Shipment</h2>
                 <form action="#" method="POST" class="shipment-form" id="shipment-form">
                     <div class="shipment-container">
-                        <div class="from-details">
+                        <div class="from-details" data-aos="fade-left" data-aos-anchor-placement="center-bottom">
                             <h3>From</h3>
                             <div class="form-group">
                                 <input type="text" id="from-city" name="from" placeholder="City" required
@@ -127,7 +128,7 @@
                                 <input type="date" id="date" name="date" required autocomplete="off">
                             </div>
                         </div>
-                        <div class="to-details">
+                        <div class="to-details" data-aos="fade-right" data-aos-anchor-placement="center-bottom">
                             <h3>To</h3>
                             <div class="form-group">
                                 <input type="text" id="to-city" name="to" placeholder="City" required
@@ -148,12 +149,12 @@
 
                     <button id="calculate" class="btn" type="button">Calculate <span id="spinner"><i
                                 class="fa-solid fa-spinner fa-spin"></i></span></button>
-                                <div class="city-names-error">Please provide a valid city names</div>
+                    <div class="city-names-error">Please provide a valid city names</div>
                     <div id="estimated-km"></div>
                     <h3 id="price" style="display: none;">Total Price: <span id="price">₹0</span></h3>
                     <button id="book-now" class="btn" type="button" style="display: none;">Book Now</button>
                 </form>
-                <section class="payment-modal">
+                <section class="payment-modal" data-aos="fade-down" data-aos-anchor-placement="center-bottom">
                     <!-- From Uiverse.io by zanina-yassine -->
                     <div class="modal">
                         <form class="form">
@@ -291,7 +292,7 @@
             </section>
 
 
-            <section id="about-us">
+            <section id="about-us" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                 <h1>About Us</h1>
                 <div class="about-content">
                     <p>
@@ -365,7 +366,7 @@
 
         </div>
         <footer>
-            <div class="footer-container">
+            <div class="footer-container" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                 <div class="footer-section">
                     <h3>About Us</h3>
                     <p>We provide fast and reliable shipment services with real-time tracking and customer support.</p>
@@ -400,16 +401,38 @@
                 </div>
             </div>
             <p>© 2025 Shipment Services. All Rights Reserved.</p>
+        </footer>
     </div>
-    </footer>
+    <div class="logout-container">
+        <div class="logout">
+            <div class="logout-content">
+                <p class="logout-heading">LOGOUT</p>
+                <p class="logout-description">Are you want to log out ?</p>
+            </div>
+            <div class="logout-button-wrapper">
+                <button class="logout-button secondary">Cancel</button>
+                <button class="logout-button primary">Yes</button>
+            </div>
+            <button class="exit-button">
+                <svg height="20px" viewBox="0 0 384 512">
+                    <path
+                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
+                    </path>
+                </svg>
+            </button>
+        </div>
     </div>
+
 
     <script src="./assets/js/main.js"></script>
     <script src="./assets/js/menu.js"></script>
     <script type="module" src="./assets/js/statecheck.js"></script>
 
     <script src="./assets/js/booking.js" type="module" defer></script>
-
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 
 </body>
 

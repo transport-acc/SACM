@@ -24,7 +24,7 @@ const loginToggle = document.getElementById('login-toggle');
 const signupToggle = document.getElementById('signup-toggle');
 const loginForm = document.getElementById('login-form');
 const signupForm = document.getElementById('signup-form');
-
+const toastNotification = document.querySelector('.toast-notification');
 loginToggle.addEventListener('click', () => {
     loginForm.classList.remove('hidden');
     signupForm.classList.add('hidden');
@@ -60,8 +60,10 @@ signupForm.addEventListener('submit', async (e) => {
             userId: user.uid,
             createdAt: new Date().toISOString(),
         });
-        alert('Signup successful and user details stored!');
-        window.location.href = '/'
+        toastNotification.style.right = '20px'
+        setTimeout(() => {
+            window.location.href = '/'
+        }, 1000);
     } catch (error) {
         alert(error.message);
     }
@@ -75,9 +77,11 @@ loginForm.addEventListener('submit', async (e) => {
 
     try {
         await signInWithEmailAndPassword(auth, email, password);
-        alert('Login successful!');
         localStorage.setItem('loggedIn',true)
-        window.location.href = '/'
+        toastNotification.style.right = '20px'
+        setTimeout(() => {
+            window.location.href = '/'
+        }, 1000);
     } catch (error) {
         alert(error.message);
     }
@@ -94,8 +98,10 @@ googleLoginBtn.addEventListener('click', async () => {
         
         // Check if the user already exists in Firestore
         localStorage.setItem('loggedIn',true)
-        alert('Google login successful!');
-        window.location.href = '/'
+        toastNotification.style.right = '20px'
+        setTimeout(() => {
+            window.location.href = '/'
+        }, 1000);
     } catch (error) {
         alert(error.message);
     }
@@ -108,8 +114,10 @@ googlesignUpBtn.addEventListener('click', async () => {
         
         // Check if the user already exists in Firestore
         localStorage.setItem('loggedIn',true)
-        alert('Google login successful!');
-        window.location.href = '/'
+        toastNotification.style.right = '20px'
+        setTimeout(() => {
+            window.location.href = '/'
+        }, 1000);
     } catch (error) {
         alert(error.message);
     }

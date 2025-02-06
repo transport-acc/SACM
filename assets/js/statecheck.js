@@ -13,7 +13,11 @@ const firebaseConfig = {
     appId: "1:601957546060:web:d70ed8f9b258a0483fdce9",
     measurementId: "G-2JBG2SZRV7"
 };
-
+const logOutModal = document.querySelector('.logout-container');
+const logOutConfirm = document.querySelector('.primary');
+const logOutCancel = document.querySelector('.secondary');
+const logOutExit = document.querySelector('.exit-button')
+logOutModal.style.top = '-80%'
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -30,7 +34,7 @@ onAuthStateChanged(auth, async (user) => {
     if (user) {
         loginBtn.classList.add('hidden'); // Hide login button
         profileBtn.classList.remove('hidden'); // Show profile button
-        
+
         let displayPhoto = user.photoURL;
         let displayName = user.displayName;
         if (!displayPhoto) {
@@ -51,7 +55,7 @@ onAuthStateChanged(auth, async (user) => {
             }
             console.log(profileBtn.textContent)
         }
-        else{
+        else {
             profileBtn.style.backgroundColor = 'transparent'
             image.src = displayPhoto;
         }
@@ -65,15 +69,29 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // Logout Logic
+
 logoutBtn.addEventListener('click', async () => {
-    try {
-        await signOut(auth); // Sign out from Firebase
-        alert('Logged out successfully!');
-        sidebar.classList.remove('active'); // Close sidebar on logout
-    } catch (error) {
-        console.error('Error during logout:', error.message);
-    }
+    logOutModal.style.top = '50%';
+    sidebar.classList.remove('active');
 });
+
+logOutConfirm.addEventListener('click', () => {
+    signOut(auth).then(() => {
+        sidebar.classList.remove('active');
+        logOutModal.style.top = '-80%';
+    }).catch((error) => {
+        alert(`Error in logging out ${error.message}`)
+    });
+});
+logOutCancel.addEventListener('click', () => {
+    logOutModal.style.top = '-80%'
+});
+logOutExit.addEventListener('click', () => {
+    logOutModal.style.top = '-80%'
+});
+
+
+
 
 // Redirect Login Button
 loginBtn.addEventListener('click', () => {
